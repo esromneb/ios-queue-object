@@ -1,13 +1,14 @@
+#import "NSMutableArray+QueueAdditions.h"
 
 @implementation NSMutableArray (QueueAdditions) 
 
 // Add to the tail of the queue (no one likes it when people cut in line!)
-- (void) enqueue:(id)anObject {
+-(void) enqueue:(id)anObject {
     [self addObject:anObject];
     //this method automatically adds to the end of the array
 }
 
-- (id)dequeue {
+-(id) dequeue {
     if ([self count] == 0) {
         return nil;
     }
@@ -16,35 +17,28 @@
     return queueObject;
 }
 
-- (id)peek:(int)index {
-	if ([self count] == 0 || index < 0) {
+-(id) peek:(int)index {
+	if (self.count==0 || index<0) {
         return nil;
     }
 	return [[self objectAtIndex:index] retain];
 }
 
-- (id)peekHead
+// if there aren't any objects in the queue
+// peek returns nil, and we will too
+-(id) peekHead
 {
-	// if there aren't any objects in the queue
-	// peek returns nil, and we will too
 	return [self peek:0];
 }
 
-- (id)peekTail
+// if 0 objects, we call peek:-1 which returns nil
+-(id) peekTail
 {
-	// if 0 objects, we call peek:-1 which returns nil
-	return [self peek:([self count]-1)];
+	return [self peek:self.count-1];
 }
 
-
-- (int)empty {
-	if ([self count] == 0) {
-        return true;
-    }
-	else
-	{
-		return false;
-	}
+-(BOOL) empty {
+    return self.count==0;
 }
 
 @end
