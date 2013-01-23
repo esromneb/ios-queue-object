@@ -2,43 +2,61 @@
 
 @implementation NSMutableArray (QueueAdditions) 
 
-// Add to the tail of the queue (no one likes it when people cut in line!)
--(void) enqueue:(id)anObject {
-    [self addObject:anObject];
-    //this method automatically adds to the end of the array
+// Add to the tail of the queue
+-(void) enqueue: (id) anObject {
+    // Push the item in
+    [self addObject: anObject];
 }
 
+// Grab the next item in the queue, if there is one
 -(id) dequeue {
-    if ([self count] == 0) {
-        return nil;
+    // Set aside a reference to the object to pass back
+    id queueObject = nil;
+    
+    // Do we have any items?
+    if ([self lastObject]) {
+        // Pick out the first one
+        queueObject = [self objectAtIndex: 0];
+        // Remove it from the queue
+        [self removeObjectAtIndex: 0];
     }
-    id queueObject = [[[self objectAtIndex:0] retain] autorelease];
-    [self removeObjectAtIndex:0];       // beginning of the array is the back of the queue
+    
+    // Pass back the dequeued object, if any
     return queueObject;
 }
 
--(id) peek:(int)index {
-	if (self.count==0 || index<0) {
-        return nil;
+// Takes a look at an object at a given location
+-(id) peek: (int) index {
+    // Set aside a reference to the peeked at object
+    id peekObject = nil;
+    // Do we have any items at all?
+    if ([self lastObject]) {
+        // Is this within range?
+        if (index < [self count]) {
+            // Get the object at this index
+            peekObject = [self objectAtIndex: index];
+        }
     }
-	return [[self objectAtIndex:index] retain];
+	
+    // Pass back the peeked at object, if any
+    return peekObject;
 }
 
-// if there aren't any objects in the queue
-// peek returns nil, and we will too
--(id) peekHead
-{
-	return [self peek:0];
+// Let's take a look at the next item to be dequeued
+-(id) peekHead {
+    // Peek at the next item
+	return [self peek: 0];
 }
 
-// if 0 objects, we call peek:-1 which returns nil
--(id) peekTail
-{
-	return [self peek:self.count-1];
+// Let's take a look at the last item to have been added to the queue
+-(id) peekTail {
+    // Pick out the last item
+	return [self lastObject];
 }
 
+// Checks if the queue is empty
 -(BOOL) empty {
-    return self.count==0;
+    return ([self lastObject] == nil);
 }
 
 @end
