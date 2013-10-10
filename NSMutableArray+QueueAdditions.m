@@ -16,7 +16,11 @@
     // Do we have any items?
     if ([self lastObject]) {
         // Pick out the first one
+#if !__has_feature(objc_arc)
+        queueObject = [[[self objectAtIndex: 0] retain] autorelease];
+#else
         queueObject = [self objectAtIndex: 0];
+#endif
         // Remove it from the queue
         [self removeObjectAtIndex: 0];
     }
