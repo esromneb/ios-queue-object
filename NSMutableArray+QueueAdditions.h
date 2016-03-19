@@ -1,7 +1,7 @@
 /*
  Generic queue.
  */
- #import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 
 @interface NSMutableArray (QueueAdditions)
 
